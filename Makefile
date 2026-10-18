@@ -38,7 +38,7 @@ lint-strict:
 				@uv run mypy src --strict
 
 test:
-				@uv run python -m pytest tests -s
+				@uv run python -m pytest tests -v
 
 
 help:
