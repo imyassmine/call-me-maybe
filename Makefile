@@ -28,16 +28,16 @@ debug:
 clean:
 				$(call ANIMATION,Removing compiled files and caches)
 				@rm -rf __pycache__ */__pycache__ .pytest_cache .mypy_cache *.pyc
-				@printf "$(GREEN)✓$(DEFAULT) Cleaned\n"
 
 lint:
-				@uv run flake8 . && uv run mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+				@uv run flake8 .
+				@uv run mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
 lint-strict:
-				@uv run flake8 . && uv run mypy . --strict --no-incremental
+				@uv run flake8 .
+				@uv run mypy . --strict --no-incremental
 
 test:
-				$(call ANIMATION,Running tests)
 				@uv run python -m pytest tests -s
 
 
