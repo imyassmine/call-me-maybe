@@ -54,7 +54,7 @@ ignore_missing_imports = true
 disallow_untyped_defs = true
 check_untyped_defs = true
 
-# llm_sdk is the SDK provided with the 42 activity: it is vendored as-is,
+# llm_sdk is the vendored inference SDK: it is vendored as-is,
 # so its files are not type-checked as part of this project.
 [[tool.mypy.overrides]]
 module = ["llm_sdk", "llm_sdk.*"]

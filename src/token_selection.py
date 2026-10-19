@@ -12,10 +12,10 @@ class NoValidTokenError(Exception):
 
 def prepare_vocabulary(vocabulary: dict[str, int]) -> dict[int, str]:
     """Convert token -> id vocabulary to id -> token."""
-    result: dict[int, str] = {}
-    for token, token_id in vocabulary.items():
-        result[token_id] = token.replace("Ġ", " ")
-    return result
+    return {
+        token_id: token.replace("Ġ", " ")
+        for token, token_id in vocabulary.items()
+    }
 
 
 def should_stop_early(
@@ -41,14 +41,7 @@ def should_stop_early(
         return True
 
     test_state = copy(state_machine)
-    if state_machine.current_param_type == "number":
-        continues = test_state._valid_number_token(top_token)
-    elif state_machine.current_param_type == "boolean":
-        continues = test_state._valid_boolean_token(top_token)
-    else:
-        continues = False
-
-    return not continues
+    return not test_state.valid_value_token(top_token)
 
 
 def get_next_token(
@@ -62,6 +55,9 @@ def get_next_token(
 
     mode must be one of "function" or "value".
     """
+    if mode not in ("function", "value"):
+        raise ValueError(f"Unknown mode: {mode}")
+
     scores = np.asarray(logits)
 
     for token_id in np.argsort(scores)[::-1]:
@@ -75,10 +71,8 @@ def get_next_token(
 
         if mode == "function":
             valid = test_state.valid_function_token(token, functions)
-        elif mode == "value":
-            valid = test_state.valid_value_token(token)
         else:
-            raise ValueError(f"Unknown mode: {mode}")
+            valid = test_state.valid_value_token(token)
 
         if valid:
             state_machine.__dict__.update(test_state.__dict__)

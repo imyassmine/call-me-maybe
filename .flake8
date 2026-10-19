@@ -1,6 +1,6 @@
 [flake8]
 max-line-length = 79
-# llm_sdk is the SDK provided with the 42 activity: it is vendored as-is
+# llm_sdk is the vendored inference SDK: it is vendored as-is
 # and is intentionally not linted here.
 exclude =
     .git,
