@@ -4,11 +4,8 @@ import os
 import sys
 
 from llm_sdk import Small_LLM_Model
-from src.generate import (
-    FunctionSelectionError,
-    ValueGenerationError,
-    generate_function_call,
-)
+from src.generate import FunctionSelectionError, generate_function_call
+from src.value_conversion import ValueGenerationError
 from src.json_file_parsing import parse_function_calling_tests, parse_functions
 from src.token_selection import prepare_vocabulary
 

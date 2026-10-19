@@ -11,6 +11,7 @@ from src.token_selection import (
     get_next_token,
     should_stop_early
     )
+from src.value_conversion import ValueGenerationError, convert_value
 
 MAX_FUNCTION_TOKENS = 30
 MAX_VALUE_TOKENS = 60
@@ -18,10 +19,6 @@ MAX_VALUE_TOKENS = 60
 
 class FunctionSelectionError(Exception):
     """Raised when the LLM cannot select a valid function for a prompt."""
-
-
-class ValueGenerationError(Exception):
-    """Raised when the LLM cannot generate a valid value for a parameter."""
 
 
 def _encode(model: Small_LLM_Model, text: str) -> list[int]:
@@ -115,20 +112,6 @@ def generate_value(
         )
 
     return state_machine.current_text
-
-
-def convert_value(raw_value: str, param_type: str) -> object:
-    """Convert the raw generated text into the correct Python type."""
-    try:
-        if param_type == "number":
-            return float(raw_value) if "." in raw_value else int(raw_value)
-        if param_type == "boolean":
-            return raw_value == "true"
-        return raw_value
-    except ValueError as error:
-        raise ValueGenerationError(
-            f"Generated value {raw_value!r} is not a valid {param_type}"
-        ) from error
 
 
 def generate_function_call(

@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.generate import ValueGenerationError, convert_value
+from src.value_conversion import ValueGenerationError, convert_value
 
 
 def test_convert_integer_number() -> None:

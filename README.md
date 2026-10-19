@@ -68,7 +68,8 @@ Custom inputs and outputs: `make run ARGS="--input my_prompts.json --output my_r
 ## Architecture
 
 ```
-src/generate.py           two-phase generation + Python type conversion
+src/generate.py           two-phase generation (function + typed arguments)
+src/value_conversion.py   raw value → typed Python value
 src/state_machine.py      constrained-decoding FSM (valid continuations per state)
 src/token_selection.py    highest-valid-logit selection + early stopping
 src/prompts.py            prompt templates
